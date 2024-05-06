@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pocks/presentation/widgets/custom_textfield.dart';
+import 'package:pocks/presentation/widgets/primary_btn.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -50,18 +51,17 @@ class LoginScreenState extends State<LoginScreen> {
                 },
               ),
               const SizedBox(height: 16.0),
-              ElevatedButton(
-                onPressed: () {
-                  if (_formKey.currentState!.validate()) {
-                    // If the form is valid, display a Snackbar
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(content: Text('Processing Data')),
-                    );
-                    // Perform login operation
-                  }
-                },
-                child: const Text('Login'),
-              ),
+              PrimaryButton(
+                  onPressed: () {
+                    if (_formKey.currentState!.validate()) {
+                      // If the form is valid, display a Snackbar
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(content: Text('Processing Data')),
+                      );
+                      // Perform login operation
+                    }
+                  },
+                  text: 'Login')
             ],
           ),
         ),
