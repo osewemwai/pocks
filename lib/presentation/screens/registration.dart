@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:pocks/data/repositories/auth_repo.dart';
+import 'package:pocks/domain/models/user_model.dart';
 import 'package:pocks/presentation/widgets/custom_textfield.dart';
+import 'package:pocks/presentation/widgets/primary_btn.dart';
 
 class Registration extends StatefulWidget {
   const Registration({super.key});
@@ -9,7 +12,6 @@ class Registration extends StatefulWidget {
 }
 
 class _RegistrationState extends State<Registration> {
-
   final _formKey = GlobalKey<FormState>();
 
   final _emailController = TextEditingController();
@@ -21,8 +23,19 @@ class _RegistrationState extends State<Registration> {
 
   //avatar image
 
+  final authRepo = AuthRepoImpl();
 
+  Future<void> _register() async {
+    final userModel = UserModel(
+      email: _emailController.text,
+      username: _usernameController.text,
+      name: '${_firstNameController.text} ${_lastNameController.text}',
+      password: _passwordController.text,
+      passwordConfirm: _confirmPasswordController.text,
+    );
 
+    await authRepo.register(userModel);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +49,7 @@ class _RegistrationState extends State<Registration> {
           key: _formKey,
           child: SingleChildScrollView(
             child: Column(
-              children: <Widget>[
+              children: [
                 CustomTextField(
                   hintText: 'Email',
                   controller: _emailController,
@@ -111,7 +124,7 @@ class _RegistrationState extends State<Registration> {
                   },
                 ),
                 const SizedBox(height: 16.0),
-                ElevatedButton(
+                PrimaryButton(
                   onPressed: () {
                     if (_formKey.currentState!.validate()) {
                       // If the form is valid, display a Snackbar
@@ -119,9 +132,10 @@ class _RegistrationState extends State<Registration> {
                         const SnackBar(content: Text('Processing Data')),
                       );
                       // Perform registration operation
+                      _register();
                     }
                   },
-                  child: const Text('Register'),
+                  text: 'Register',
                 ),
               ],
             ),
